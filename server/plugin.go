@@ -104,14 +104,12 @@ func (p *Plugin) updateConfig(conf configuration) {
 
 // OnActivate starts the plugin.
 func (p *Plugin) OnActivate() error {
-	defer p.logInfo("plugin is activated")
 	p.start()
 	return nil
 }
 
 // OnDeactivate stops the plugin.
 func (p *Plugin) OnDeactivate() error {
-	defer p.logInfo("plugin is deactivated")
 	p.initialized = false
 	p.stop(true)
 	return nil
