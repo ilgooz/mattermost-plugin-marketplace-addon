@@ -1,4 +1,4 @@
-// package xtime extends features of package "time".
+// Package xtime extends features of package "time".
 package xtime
 
 import (

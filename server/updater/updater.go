@@ -197,13 +197,13 @@ func (u *Updater) checkAndUpdate() {
 	wg.Add(lenUpdates)
 	// TODO(ilgooz): limit the number of how many goroutines can be created.
 	for _, updateOp := range updates {
-		go func() {
+		go func(updateOp *UpdateOp) {
 			defer wg.Done()
 			u.papi.LogInfo(fmt.Sprintf("updating %q from %q to %q...", updateOp.installed.Id,
 				updateOp.installed.Version, updateOp.next.Manifest.Version))
 			u.update(updateOp)
 			u.papi.LogInfo(fmt.Sprintf("updated %q", updateOp.installed.Id))
-		}()
+		}(updateOp)
 	}
 	wg.Wait()
 }
@@ -262,7 +262,7 @@ func (u *Updater) discover() []*UpdateOp {
 // update updates an installed plugin by using info from updateOp.
 func (u *Updater) update(updateOp *UpdateOp) {
 	// install the plugin.
-	_, aerr := xplugin.InstallPluginFromUrl(u.papi, updateOp.next.DownloadURL, true)
+	_, aerr := xplugin.InstallPluginFromURL(u.papi, updateOp.next.DownloadURL, true)
 	if aerr != nil {
 		u.notifyError(updateOp.installed.Id, errors.Wrap(aerr, "could not install the plugin"))
 		return

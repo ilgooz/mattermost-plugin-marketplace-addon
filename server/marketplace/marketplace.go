@@ -59,7 +59,8 @@ func (m *Marketplace) ListPlugins() (Plugins, error) {
 	}
 	defer resp.Body.Close()
 	if resp.StatusCode != 200 {
-		data, err := ioutil.ReadAll(resp.Body)
+		var data []byte
+		data, err = ioutil.ReadAll(resp.Body)
 		if err != nil {
 			return nil, err
 		}
