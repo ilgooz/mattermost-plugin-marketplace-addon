@@ -1,6 +1,8 @@
 package marketplace
 
 import (
+	"fmt"
+
 	"github.com/mattermost/mattermost-server/model"
 )
 
@@ -8,11 +10,21 @@ import (
 type Plugins []*model.BaseMarketplacePlugin
 
 // GetPlugin gets a plugin by id.
-func (p *Plugins) GetPlugin(id string) (plugin *model.BaseMarketplacePlugin, found bool) {
+func (p *Plugins) GetPlugin(id string) (*model.BaseMarketplacePlugin, error) {
 	for _, plugin := range *p {
 		if plugin.Manifest.Id == id {
-			return plugin, true
+			return plugin, nil
 		}
 	}
-	return nil, false
+	return nil, &NotFoundError{ID: id}
+}
+
+// NotFoundError error is returned when a plugin with id is not found.
+type NotFoundError struct {
+	// ID of the plugin.
+	ID string
+}
+
+func (e *NotFoundError) Error() string {
+	return fmt.Sprintf("plugin %q not found in the Marketplace", e.ID)
 }

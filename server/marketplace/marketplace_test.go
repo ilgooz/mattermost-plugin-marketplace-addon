@@ -27,14 +27,14 @@ func TestListPlugins(t *testing.T) {
 	require.Len(t, plugins, 2)
 	require.Equal(t, "1", plugins[0].Manifest.Id)
 	require.Equal(t, "2", plugins[1].Manifest.Id)
-	plugin1, found1 := plugins.GetPlugin("1")
-	plugin2, found2 := plugins.GetPlugin("2")
-	_, found3 := plugins.GetPlugin("3")
-	require.True(t, found1)
+	plugin1, err := plugins.GetPlugin("1")
+	require.NoError(t, err)
 	require.Equal(t, "1", plugin1.Manifest.Id)
-	require.True(t, found2)
+	plugin2, err := plugins.GetPlugin("2")
+	require.NoError(t, err)
 	require.Equal(t, "2", plugin2.Manifest.Id)
-	require.False(t, found3)
+	_, err = plugins.GetPlugin("3")
+	require.Equal(t, &NotFoundError{ID: "3"}, err)
 }
 
 func TestListPluginsBadStatus(t *testing.T) {

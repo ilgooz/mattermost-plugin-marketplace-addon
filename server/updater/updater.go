@@ -234,8 +234,9 @@ func (u *Updater) discover() []*UpdateOp {
 	for _, manifest := range installedPlugins {
 		// get the last version of the installed plugin from the Marketplace.
 		// do nothing if the plugin is not in the Marketplace.
-		marketplacePlugin, found := marketplacePlugins.GetPlugin(manifest.Id)
-		if !found {
+		marketplacePlugin, err := marketplacePlugins.GetPlugin(manifest.Id)
+		if err != nil {
+			u.papi.LogError(err.Error())
 			continue
 		}
 		// create a new update operation for installed plugin and its version in the marketplace.

@@ -43,6 +43,7 @@ func TestUpdate(t *testing.T) {
 	apiMock.On("LogInfo", `found 1 plugins to update`).Once()
 	apiMock.On("LogInfo", `updating "topdf" from "1.2.1" to "1.3.0"...`).Once()
 	apiMock.On("LogInfo", `updated "topdf"`).Once()
+	apiMock.On("LogError", (&marketplace.NotFoundError{ID: "github"}).Error()).Once()
 	apiMock.On("GetServerVersion").Return("5.4.0")
 	apiMock.On("InstallPlugin", mock.Anything, true).Once().Return(nil, nil).Run(func(args mock.Arguments) {
 		tar := args.Get(0).(io.Reader)
