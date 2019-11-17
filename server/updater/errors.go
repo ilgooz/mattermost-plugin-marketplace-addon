@@ -39,12 +39,3 @@ func (e *ServerVersionError) Error() string {
 	return fmt.Sprintf("min required server version is %q to install %q version of %q plugin but server has a lower version %q",
 		e.RequiredServerVersion, e.NextPluginVersion, e.PluginID, e.CurrentServerVersion)
 }
-
-// SignatureError returned when plugin's signature cannot be verified with none of the public
-// keys provided by the Mattermost admins.
-type SignatureError struct {
-}
-
-func (e *SignatureError) Error() string {
-	panic("not implemented")
-}
