@@ -1,5 +1,5 @@
 {
-  "id": "marketplace-addon",
+  "id": "com.mattermost.marketplace-addon",
   "name": "Marketplace Addon",
   "description": "Automatically update installed plugins to latest versions",
   "version": "0.1.0",
