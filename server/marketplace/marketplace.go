@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"path"
 
 	"time"
 
@@ -13,11 +12,8 @@ import (
 )
 
 const (
-	// marketplaceVersion is the URL version of Marketplace API.
-	marketplaceVersion = "/api/v1"
-
 	// listPluginsEndpoint is an endpoint to get plugin list.
-	listPluginsEndpoint = "/plugins"
+	listPluginsEndpoint = "/api/v1/plugins"
 )
 
 const (
@@ -48,17 +44,13 @@ func (m *Marketplace) ListPlugins() (Plugins, error) {
 	if err != nil {
 		return nil, err
 	}
-	urlParsed.Path = path.Join(marketplaceVersion, listPluginsEndpoint)
-	req, err := http.NewRequest("GET", urlParsed.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-	resp, err := m.client.Do(req)
+	urlParsed.Path = listPluginsEndpoint
+	resp, err := m.client.Get(urlParsed.String())
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		var data []byte
 		data, err = ioutil.ReadAll(resp.Body)
 		if err != nil {
