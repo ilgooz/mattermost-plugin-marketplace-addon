@@ -1,0 +1,36 @@
+{
+  "id": "com.mattermost.marketplace-addon",
+  "name": "Marketplace Addon",
+  "description": "Automatically update installed plugins to latest versions",
+  "version": "0.1.0",
+  "min_server_version": "5.14.0",
+  "server": {
+    "executables": {
+        "linux-amd64": "server/dist/plugin-linux-amd64",
+        "darwin-amd64": "server/dist/plugin-darwin-amd64",
+        "windows-amd64": "server/dist/plugin-windows-amd64.exe"
+    }
+  },
+  "settings_schema": {
+    "settings": [{
+      "key": "NotificationChannelName",
+      "display_name": "Notification Channel",
+      "help_text": "A channel name to send notifications related to plugin updates.",
+      "type": "text"
+    },{
+      "key": "MarketplaceAPIAddress",
+      "display_name": "Marketplace API's Address",
+      "type": "text",
+      "help_text": "Marketplace API used to fetch latest plugins from the Marketplace.",
+      "placeholder": "https://api.integrations.mattermost.com",
+      "default": "https://api.integrations.mattermost.com"
+    },{
+      "key": "UpdateCheckFrequency",
+      "display_name": "Update Check Frequency ",
+      "help_text": "Updates are checked by this interval. See the input format [here](https://golang.org/pkg/time/#ParseDuration).",
+      "type": "text",
+      "placeholder": "30s",
+      "default": "30s"
+    }]
+  }
+}
